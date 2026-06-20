@@ -18,6 +18,8 @@ test('locked out user cannot log in', async ({ page }) => {
   await page.getByTestId('password').fill('secret_sauce');
   await page.getByTestId('login-button').click();
 
-  await expect(page.getByTestId('error')).toBeVisible();
-  await expect(page.getByTestId('error')).toContainText('locked out');
+  const errorMessage = page.getByTestId('error');
+
+  await expect(errorMessage).toBeVisible();
+  await expect(errorMessage).toContainText('locked out');
 });

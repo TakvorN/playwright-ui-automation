@@ -54,3 +54,37 @@ test(
     await expect(page).toHaveURL(/checkout-complete\.html/);
   },
 );
+
+test('checkout requires a postal code', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const inventoryPage = new InventoryPage(page);
+  const cartPage = new CartPage(page);
+  const checkoutPage = new CheckoutPage(page);
+
+  await loginPage.goto();
+  await loginPage.login(
+    users.standard.username,
+    users.standard.password,
+  );
+
+  await inventoryPage.addBackpackToCart();
+  await inventoryPage.openCart();
+  await cartPage.beginCheckout();
+
+  await checkoutPage.enterCustomerInformation(
+    checkoutData.firstName,
+    checkoutData.lastName,
+    '',
+  );
+
+  await checkoutPage.continueToOverview();
+
+  await expect(checkoutPage.errorMessage).toBeVisible();
+  await expect(checkoutPage.errorMessage).toContainText(
+    'Postal Code is required',
+  );
+  await expect(checkoutPage.title).toHaveText(
+    'Checkout: Your Information',
+  );
+  await expect(page).toHaveURL(/checkout-step-one\.html/);
+});

@@ -24,6 +24,7 @@ The tests run against [SauceDemo](https://www.saucedemo.com/), a demo e-commerce
 * Locked-out user cannot log in and receives an error message
 * Product inventory is visible after successful login
 * Standard user can add a product to the cart and verify it in the cart
+* Standard user can complete the full checkout flow
 
 ## Project Structure
 
@@ -34,12 +35,15 @@ playwright-ui-automation/
 │       └── playwright.yml
 ├── pages/
 │   ├── CartPage.ts
+│   ├── CheckoutPage.ts
 │   ├── InventoryPage.ts
 │   └── LoginPage.ts
 ├── test-data/
+│   ├── checkout.ts
 │   └── users.ts
 ├── tests/
 │   ├── cart.spec.ts
+│   ├── checkout.spec.ts
 │   ├── inventory.spec.ts
 │   └── login.spec.ts
 ├── .gitignore
@@ -104,12 +108,12 @@ npm run report
 
 ## Smoke Tests
 
-The cart flow is marked with `@smoke` in the test title.
+The complete checkout journey is tagged as `@smoke`.
 
-Run smoke tests only:
+Run smoke tests across all configured browsers:
 
 ```bash
-npx playwright test --grep @smoke
+npm run test:smoke
 ```
 
 ## Notes on Headed Mode in WSL
@@ -132,7 +136,8 @@ GitHub Actions runs the test suite on push and pull request events. The workflow
 * Page Object Model for maintainable UI automation
 * Reusable test data
 * Positive and negative login scenarios
-* Smoke-style cart validation
+* Complete end-to-end checkout smoke flow
+* Structured Playwright test tags and filtered execution
 * TypeScript type-checking with `tsc --noEmit`
 * Cross-browser test configuration
 * GitHub Actions CI

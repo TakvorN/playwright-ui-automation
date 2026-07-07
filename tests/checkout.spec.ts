@@ -1,20 +1,18 @@
-import { test, expect } from '@playwright/test';
-import { CartPage } from '../pages/CartPage';
-import { CheckoutPage } from '../pages/CheckoutPage';
-import { InventoryPage } from '../pages/InventoryPage';
-import { LoginPage } from '../pages/LoginPage';
+import { test, expect } from '../fixtures/app.fixture';
 import { checkoutData } from '../test-data/checkout';
 import { users } from '../test-data/users';
 
 test(
   'standard user can complete checkout',
   { tag: '@smoke' },
-  async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-
+  async ({ 
+    page,
+     loginPage,
+    inventoryPage,
+    cartPage,
+    checkoutPage,
+ }) => {
+ 
     await loginPage.goto();
     await loginPage.login(
       users.standard.username,
@@ -55,11 +53,15 @@ test(
   },
 );
 
-test('checkout requires a postal code', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const inventoryPage = new InventoryPage(page);
-  const cartPage = new CartPage(page);
-  const checkoutPage = new CheckoutPage(page);
+test(
+    'checkout requires a postal code', 
+  async ({ 
+    page,
+     loginPage,
+    inventoryPage,
+    cartPage,
+    checkoutPage,
+ }) => {
 
   await loginPage.goto();
   await loginPage.login(

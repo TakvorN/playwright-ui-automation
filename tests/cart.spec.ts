@@ -1,13 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { CartPage } from '../pages/CartPage';
-import { InventoryPage } from '../pages/InventoryPage';
-import { LoginPage } from '../pages/LoginPage';
+import { test, expect } from '../fixtures/app.fixture';
 import { users } from '../test-data/users';
 
-test('standard user can add a product to the cart', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const inventoryPage = new InventoryPage(page);
-  const cartPage = new CartPage(page);
+test('standard user can add a product to the cart', async ({ loginPage, inventoryPage, cartPage, }) => {
 
   await loginPage.goto();
   await loginPage.login(users.standard.username, users.standard.password);
@@ -20,4 +14,5 @@ test('standard user can add a product to the cart', async ({ page }) => {
 
   await expect(cartPage.title).toHaveText('Your Cart');
   await expect(cartPage.itemNames).toContainText(['Sauce Labs Backpack']);
-});
+  },
+);

@@ -30,26 +30,28 @@ The tests run against [SauceDemo](https://www.saucedemo.com/), a demo e-commerce
 
 ```text
 playwright-ui-automation/
-├── .github/
+├── .dockerignore
+├── .github
 │   └── workflows
 │       └── playwright.yml
 ├── .gitignore
 ├── .nvmrc
+├── Dockerfile
 ├── README.md
-├── fixtures/
+├── fixtures
 │   └── app.fixture.ts
 ├── package-lock.json
 ├── package.json
-├── pages/
+├── pages
 │   ├── CartPage.ts
 │   ├── CheckoutPage.ts
 │   ├── InventoryPage.ts
 │   └── LoginPage.ts
 ├── playwright.config.ts
-├── test-data/
+├── test-data
 │   ├── checkout.ts
 │   └── users.ts
-├── tests/
+├── tests
 │   ├── cart.spec.ts
 │   ├── checkout.spec.ts
 │   ├── inventory.spec.ts
@@ -150,6 +152,36 @@ npm run test:headed
 ```
 
 When running inside WSL, headed browser mode may require GUI/X server support. Headless mode is used by default and is suitable for local automation and CI.
+
+## Docker
+
+The test suite can also be executed inside the official Playwright Docker image.
+
+The Docker image provides the browser binaries and Linux system dependencies required for Playwright, while project dependencies are installed reproducibly with `npm ci`.
+
+Build the image:
+
+```bash
+npm run docker:build
+```
+
+Run TypeScript checking in Docker:
+
+```bash
+npm run docker:type-check
+```
+
+Run Chromium tests in Docker:
+
+```bash
+npm run docker:test:chromium
+```
+
+Run the full cross-browser suite in Docker:
+
+```bash
+npm run docker:test
+```
 
 ## CI
 

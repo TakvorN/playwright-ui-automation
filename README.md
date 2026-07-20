@@ -31,13 +31,21 @@ The tests run against [SauceDemo](https://www.saucedemo.com/), a demo e-commerce
 ```text
 playwright-ui-automation/
 ├── .github/
-│   └── workflows/
+│   └── workflows
 │       └── playwright.yml
+├── .gitignore
+├── .nvmrc
+├── README.md
+├── fixtures/
+│   └── app.fixture.ts
+├── package-lock.json
+├── package.json
 ├── pages/
 │   ├── CartPage.ts
 │   ├── CheckoutPage.ts
 │   ├── InventoryPage.ts
 │   └── LoginPage.ts
+├── playwright.config.ts
 ├── test-data/
 │   ├── checkout.ts
 │   └── users.ts
@@ -46,13 +54,30 @@ playwright-ui-automation/
 │   ├── checkout.spec.ts
 │   ├── inventory.spec.ts
 │   └── login.spec.ts
-├── .gitignore
-├── .nvmrc
-├── package.json
-├── package-lock.json
-├── playwright.config.ts
 └── tsconfig.json
 ```
+## Custom Fixtures
+
+The project extends Playwright's base `test` object with custom fixtures for the Page Object classes.
+
+This allows tests to request only the page objects they need:
+
+```ts
+test('products are visible after successful login', async ({
+  loginPage,
+  inventoryPage,
+}) => {
+  await loginPage.goto();
+  await loginPage.login(
+    users.standard.username,
+    users.standard.password,
+  );
+
+  await expect(inventoryPage.title).toHaveText('Products');
+});
+```
+
+This keeps Page Object setup reusable while leaving the tested user actions explicit inside each scenario.
 
 ## Setup
 
@@ -137,8 +162,8 @@ GitHub Actions runs the test suite on push and pull request events. The workflow
 * Reusable test data
 * Positive and negative login scenarios
 * Complete end-to-end checkout smoke flow
-* Structured Playwright test tags and filtered execution
+* Custom Playwright fixtures for reusable Page Object injection
 * TypeScript type-checking with `tsc --noEmit`
-* Cross-browser test configuration
-* GitHub Actions CI
+* Cross-browser test execution across Chromium, Firefox, and Webkit
+* GitHub Actions CI with Playwright HTML report artifacts
 

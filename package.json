@@ -11,8 +11,8 @@
     "report": "playwright show-report",
     "type-check": "tsc --noEmit",
     "docker:build": "docker build -t playwright-ui-automation .",
-    "docker:test": "docker run --rm --ipc=host playwright-ui-automation",
-    "docker:test:chromium": "docker run --rm --ipc=host playwright-ui-automation npm run test:chromium",
+    "docker:test": "docker run --rm --shm-size=2gb playwright-ui-automation",
+    "docker:test:chromium": "docker run --rm --shm-size=2gb playwright-ui-automation npm run test:chromium",
     "docker:type-check": "docker run --rm playwright-ui-automation npm run type-check"
   },
   "keywords": [],

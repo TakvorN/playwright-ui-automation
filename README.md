@@ -13,6 +13,7 @@ This project demonstrates browser-based end-to-end test automation with Playwrig
 * Node.js / npm
 * Page Object Model
 * GitHub Actions
+* Docker
 
 ## Tested Application
 
@@ -23,8 +24,10 @@ The tests run against [SauceDemo](https://www.saucedemo.com/), a demo e-commerce
 * Standard user can log in successfully
 * Locked-out user cannot log in and receives an error message
 * Product inventory is visible after successful login
+* Standard user can sort products by name from Z to A and verify the displayed order
 * Standard user can add a product to the cart and verify it in the cart
 * Standard user can complete the full checkout flow
+* Checkout requires a postal code before continuing to the overview step
 
 ## Project Structure
 
@@ -185,17 +188,20 @@ npm run docker:test
 
 ## CI
 
-GitHub Actions runs the test suite on push and pull request events. The workflow installs dependencies, installs Playwright browsers and Linux dependencies, runs TypeScript type-checking, runs Playwright tests, and uploads the Playwright HTML report as an artifact.
+GitHub Actions runs the test suite on push and pull request events inside the official Playwright Docker image. The workflow installs project dependencies with `npm ci`, runs TypeScript type-checking, executes the Playwright test suite, and uploads the Playwright HTML report as an artifact.
 
 ## Key Concepts Demonstrated
 
 * Playwright locators and web-first assertions
 * Page Object Model for maintainable UI automation
+* Custom Playwright fixtures for reusable Page Object injection
 * Reusable test data
 * Positive and negative login scenarios
 * Complete end-to-end checkout smoke flow
-* Custom Playwright fixtures for reusable Page Object injection
+* Checkout form validation coverage
+* Dropdown interaction and multi-item UI order validation
 * TypeScript type-checking with `tsc --noEmit`
-* Cross-browser test execution across Chromium, Firefox, and Webkit
+* Cross-browser test execution across Chromium, Firefox, and WebKit
+* Dockerized local and CI test execution
 * GitHub Actions CI with Playwright HTML report artifacts
 
